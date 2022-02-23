@@ -50,7 +50,7 @@ namespace SindTech.Business.Services
 
         public void Dispose()
         {
-            //_moradorRepository?.Dispose();
+            _moradorRepository?.Dispose();
         }
     }
 }

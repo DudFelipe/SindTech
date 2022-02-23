@@ -34,7 +34,7 @@ namespace SindTech.App.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(MoradorViewModel moradorViewModel)
+        public async Task<IActionResult> Create(MoradorViewModel moradorViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -43,7 +43,7 @@ namespace SindTech.App.Controllers
 
             var morador = _mapper.Map<Morador>(moradorViewModel);
 
-            _moradorService.Adicionar(morador);
+            await _moradorService.Adicionar(morador);
 
             return RedirectToAction("Index");
         }

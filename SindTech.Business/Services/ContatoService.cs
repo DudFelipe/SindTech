@@ -35,7 +35,7 @@ namespace SindTech.Business.Services
 
         public void Dispose()
         {
-            //_contatoRepository?.Dispose();
+            _contatoRepository?.Dispose();
         }
     }
 }
