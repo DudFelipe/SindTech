@@ -47,5 +47,22 @@ namespace SindTech.App.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var moradorViewModel = await ObterMoradorContato(id);
+
+            if(moradorViewModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(moradorViewModel);
+        }
+
+        private async Task<MoradorViewModel> ObterMoradorContato(Guid idMorador)
+        {
+            return _mapper.Map<MoradorViewModel>(await _moradorService.ObterMoradorContato(idMorador));
+        }
     }
 }
