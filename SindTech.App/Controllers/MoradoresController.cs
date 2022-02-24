@@ -48,6 +48,42 @@ namespace SindTech.App.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var moradorViewModel = await ObterMoradorReclamacoesContato(id);
+
+            if(moradorViewModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(moradorViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult>Edit(Guid id, MoradorViewModel moradorViewModel)
+        {
+            var moradorAux = await ObterMoradorContato(moradorViewModel.Id);
+
+            moradorViewModel.Contato = moradorAux.Contato;
+
+            if(id != moradorViewModel.Id)
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(moradorViewModel);
+            }
+
+            var morador = _mapper.Map<Morador>(moradorViewModel);
+
+            await _moradorService.Atualizar(morador);
+
+            return RedirectToAction("Index");
+        }
+
         public async Task<IActionResult> Details(Guid id)
         {
             var moradorViewModel = await ObterMoradorContato(id);
@@ -63,6 +99,11 @@ namespace SindTech.App.Controllers
         private async Task<MoradorViewModel> ObterMoradorContato(Guid idMorador)
         {
             return _mapper.Map<MoradorViewModel>(await _moradorService.ObterMoradorContato(idMorador));
+        }
+
+        private async Task<MoradorViewModel> ObterMoradorReclamacoesContato(Guid idMorador)
+        {
+            return _mapper.Map<MoradorViewModel>(await _moradorService.ObterMoradorReclamacoesContato(idMorador));
         }
     }
 }

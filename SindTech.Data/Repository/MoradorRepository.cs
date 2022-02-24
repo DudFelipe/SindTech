@@ -26,7 +26,7 @@ namespace SindTech.Data.Repository
                 .AsNoTracking()
                 .Include(r => r.Reclamacoes)
                 .Include(c => c.Contato)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(m => m.Id == id);
         }
     }
 }

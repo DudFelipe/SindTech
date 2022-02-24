@@ -24,7 +24,7 @@ namespace SindTech.App.ViewModels
 
         [Display(Name = "Tipo de Morador")]
         public int TipoMorador { get; set; }
-        public ContatoViewModel Contato { get; set; }
+        public ContatoViewModel? Contato { get; set; }
         
         ////public DateTime DataCadastro { get; set; }
 

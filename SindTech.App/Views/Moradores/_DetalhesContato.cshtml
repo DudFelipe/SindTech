@@ -1,0 +1,40 @@
+﻿@using SindTech.App.Extensions
+@using SindTech.Business.Models
+@model SindTech.App.ViewModels.MoradorViewModel
+
+<div>
+    <hr />
+    <h4>Contato</h4>
+</div>
+
+@if (Model != null)
+{
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Contato.TipoContato)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Contato.ValorContato)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @(this.RetornaNomeEnum<TipoContato>(Model.Contato.TipoContato))
+                </td>
+                <td>
+                    @Html.DisplayFor(model  => model.Contato.ValorContato)
+                </td>
+                <td>
+                    <a asp-action="AtualizarContato" asp-route-id="@Model.Id" class="btn btn-warning">
+                        <span title="Editar" class="fa fa-pencil"></span>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}
