@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using SindTech.Business.Interfaces;
 using SindTech.Business.Interfaces.Repositories;
 using SindTech.Business.Interfaces.Services;
+using SindTech.Business.Notificacoes;
 using SindTech.Business.Services;
 using SindTech.Data.Context;
 using SindTech.Data.Repository;
@@ -26,6 +28,8 @@ builder.Services.AddScoped<IReclamacaoRepository, ReclamacaoRepository>();
 builder.Services.AddScoped<IMoradorService, MoradorService>();
 builder.Services.AddScoped<IContatoService, ContatoService>();
 builder.Services.AddScoped<IReclamacaoService, ReclamacaoService>();
+
+builder.Services.AddScoped<INotificador, Notificador>();
 
 var app = builder.Build();
 

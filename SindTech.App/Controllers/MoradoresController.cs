@@ -1,20 +1,22 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SindTech.App.ViewModels;
+using SindTech.Business.Interfaces;
 using SindTech.Business.Interfaces.Services;
 using SindTech.Business.Models;
 
 namespace SindTech.App.Controllers
 {
-    public class MoradoresController : Controller
+    public class MoradoresController : BaseController
     {
         private readonly IMoradorService _moradorService;
         private readonly IContatoService _contatoService;
         private readonly IMapper _mapper;
 
-        public MoradoresController(IMoradorService moradorService, 
+        public MoradoresController(IMoradorService moradorService,
                                    IContatoService contatoService,
-                                   IMapper mapper)
+                                   IMapper mapper,
+                                   INotificador notificador) : base(notificador)
         {
             _moradorService = moradorService;
             _contatoService = contatoService;
@@ -44,6 +46,11 @@ namespace SindTech.App.Controllers
             var morador = _mapper.Map<Morador>(moradorViewModel);
 
             await _moradorService.Adicionar(morador);
+
+            if (!OperacaoValida())
+            {
+                return View(moradorViewModel);
+            }
 
             return RedirectToAction("Index");
         }
@@ -80,6 +87,11 @@ namespace SindTech.App.Controllers
             var morador = _mapper.Map<Morador>(moradorViewModel);
 
             await _moradorService.Atualizar(morador);
+
+            if (!OperacaoValida())
+            {
+                return View(moradorViewModel);
+            }
 
             return RedirectToAction("Index");
         }
@@ -122,6 +134,11 @@ namespace SindTech.App.Controllers
             morador.Ativo = false;
 
             await _moradorService.Atualizar(morador);
+
+            if (!OperacaoValida())
+            {
+                return View(moradorViewModel);
+            }
 
             return RedirectToAction("Index");
         }
