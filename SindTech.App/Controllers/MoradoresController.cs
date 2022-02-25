@@ -23,7 +23,7 @@ namespace SindTech.App.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var moradores = await _moradorService.ObterTodos();
+            var moradores = await _moradorService.ObterMoradoresAtivos();
 
             return View(_mapper.Map<IEnumerable<MoradorViewModel>>(moradores));
         }
@@ -94,6 +94,36 @@ namespace SindTech.App.Controllers
             }
 
             return View(moradorViewModel);
+        }
+
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var moradorViewModel = await ObterMoradorContato(id);
+
+            if(moradorViewModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(moradorViewModel);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            var moradorViewModel = await ObterMoradorContato(id);
+
+            if(moradorViewModel == null)
+            {
+                return NotFound();
+            }
+
+            var morador = _mapper.Map<Morador>(moradorViewModel);
+            morador.Ativo = false;
+
+            await _moradorService.Atualizar(morador);
+
+            return RedirectToAction("Index");
         }
 
         private async Task<MoradorViewModel> ObterMoradorContato(Guid idMorador)
