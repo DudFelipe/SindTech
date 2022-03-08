@@ -19,15 +19,11 @@ namespace SindTech.App.ViewModels
         [Display(Name = "Número do apartamento")]
         [Required(ErrorMessage = "O campo {0} é obrigatório!")]
         public int NumeroApartamento { get; set; }
-        
-        //public bool Ativo { get; set; }
 
         [Display(Name = "Tipo de Morador")]
         public int TipoMorador { get; set; }
         public ContatoViewModel? Contato { get; set; }
-        
-        ////public DateTime DataCadastro { get; set; }
 
-        //public IEnumerable<ReclamacaoViewModel> Reclamacoes { get; set; }
+        public IEnumerable<ReclamacaoViewModel> Reclamacoes { get; set; }
     }
 }
