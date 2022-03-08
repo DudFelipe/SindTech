@@ -7,7 +7,7 @@
         public DateTime DataNascimento { get; set; }
         public int NumeroApartamento { get; set; }
         public TipoMorador TipoMorador { get; set; }
-        public DateTime DataCadastro { get; } = DateTime.Now;
+        //public DateTime DataCadastro { get; } = DateTime.Now;
         public Contato Contato { get; set; }
 
         //EF Relations

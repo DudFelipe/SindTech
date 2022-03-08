@@ -17,6 +17,9 @@ namespace SindTech.Business.Models.Validations
             RuleFor(m => m.CPF)
                 .NotEmpty().WithMessage("O campo {PropertyName} é obrigatório.");
 
+            RuleFor(m => CpfValidacao.Validar(m.CPF)).Equal(true)
+                .WithMessage("O CPF fornecido é inválido.");
+
             RuleFor(m => m.DataNascimento).NotNull().WithMessage("O campo {PropertyName} é obrigatório.");
 
             RuleFor(m => m.NumeroApartamento)

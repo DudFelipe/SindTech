@@ -1,14 +1,17 @@
-﻿using SindTech.Business.Interfaces.Repositories;
+﻿using SindTech.Business.Interfaces;
+using SindTech.Business.Interfaces.Repositories;
 using SindTech.Business.Interfaces.Services;
 using SindTech.Business.Models;
+using SindTech.Business.Models.Validations;
 
 namespace SindTech.Business.Services
 {
-    public class ReclamacaoService : IReclamacaoService
+    public class ReclamacaoService : BaseService, IReclamacaoService
     {
         private readonly IReclamacaoRepository _reclamacaoRepository;
 
-        public ReclamacaoService(IReclamacaoRepository reclamacaoRepository)
+        public ReclamacaoService(IReclamacaoRepository reclamacaoRepository,
+                                 INotificador notificador) : base(notificador)
         {
             _reclamacaoRepository = reclamacaoRepository;
         }
@@ -29,6 +32,11 @@ namespace SindTech.Business.Services
         }
         public async Task Adicionar(Reclamacao reclamacao)
         {
+            if(!ExecutarValidacao(new ReclamacaoValidation(), reclamacao))
+            {
+                return;
+            }
+
             await _reclamacaoRepository.Adicionar(reclamacao);
         }
 
