@@ -1,0 +1,36 @@
+@model SindTech.App.ViewModels.ReclamacaoViewModel
+
+@{
+    ViewData["Title"] = "Detalhes da Reclamação";
+}
+
+<h1>Detalhes da reclamação do morador: <span class="text-success">@Model.Morador.Nome</span></h1>
+
+<br>
+
+<div>
+    <dl class="row text-center">
+        <dt class = "col-sm-6">
+            @Html.DisplayNameFor(model => model.Morador.Nome)
+        </dt>
+        <dd class = "col-sm-6">
+            @Html.DisplayNameFor(model => model.Descricao)
+        </dd>
+    </dl>
+
+    <dl class="row text-center">
+        <dt class="col-sm-6">
+            @Html.DisplayFor(model => model.Morador.Nome)
+        </dt>
+        <dt class="col-sm-6">
+            @Html.DisplayFor(model => model.Descricao)
+        </dt>
+    </dl>
+</div>
+
+<br>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">Editar</a> &nbsp;
+    <a asp-action="Index" class="btn btn-primary ">Voltar</a>
+</div>

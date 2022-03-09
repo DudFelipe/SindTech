@@ -42,6 +42,11 @@ namespace SindTech.Business.Services
 
         public async Task Atualizar(Reclamacao reclamacao)
         {
+            if(!ExecutarValidacao(new ReclamacaoValidation(), reclamacao))
+            {
+                return;
+            }
+
             await _reclamacaoRepository.Atualizar(reclamacao);
         }
 

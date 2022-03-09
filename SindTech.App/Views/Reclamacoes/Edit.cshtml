@@ -1,0 +1,33 @@
+@model SindTech.App.ViewModels.ReclamacaoViewModel
+
+@{
+    ViewData["Title"] = "Editar Reclamação";
+}
+
+<h1>Editar Reclamação</h1>
+
+<h2>Morador: <span class="text-success">@Model.Morador.Nome</span></h2>
+
+<hr>
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Edit">
+            <vc:summary></vc:summary>
+
+            <input type="hidden" asp-for="Id">
+
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label asp-for="Descricao" class="control-label"></label>
+                    <textarea asp-for="Descricao" class="form-control" cols="50" rows="10"></textarea>
+                    <span asp-validation-for="Descricao" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-success"/>
+            </div>
+        </form>
+    </div>
+</div>

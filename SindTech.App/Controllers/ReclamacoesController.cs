@@ -57,11 +57,63 @@ namespace SindTech.App.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var reclamacaoViewModel = await ObterReclamacaoMorador(id);
+
+            if(reclamacaoViewModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(reclamacaoViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(ReclamacaoViewModel reclamacaoViewModel)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(reclamacaoViewModel);
+            }
+
+            var reclamacaoAntigo = await ObterReclamacaoMorador(reclamacaoViewModel.Id);
+
+            reclamacaoViewModel.Morador = reclamacaoAntigo.Morador;
+            reclamacaoViewModel.MoradorId = reclamacaoAntigo.MoradorId;
+
+            await _reclamacaoService.Atualizar(_mapper.Map<Reclamacao>(reclamacaoViewModel));
+
+            if(!OperacaoValida())
+            {
+                return View(reclamacaoViewModel);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var reclamacaoViewModel = await ObterReclamacaoMorador(id);
+
+            if(reclamacaoViewModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(reclamacaoViewModel);
+        }
+
         private async Task<ReclamacaoViewModel> PopularMoradores(ReclamacaoViewModel reclamacaoViewModel)
         {
             reclamacaoViewModel.Moradores = _mapper.Map<IEnumerable<MoradorViewModel>>(await _moradorService.ObterMoradoresAtivos());
 
             return reclamacaoViewModel;
+        }
+
+        private async Task<ReclamacaoViewModel> ObterReclamacaoMorador(Guid idReclamacao)
+        {
+            return _mapper.Map<ReclamacaoViewModel>(await _reclamacaoService.ObterReclamacaoMorador(idReclamacao));
         }
     }
 }
