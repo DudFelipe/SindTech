@@ -24,6 +24,6 @@ namespace SindTech.App.ViewModels
         public int TipoMorador { get; set; }
         public ContatoViewModel? Contato { get; set; }
 
-        public IEnumerable<ReclamacaoViewModel> Reclamacoes { get; set; }
+        //public IEnumerable<ReclamacaoViewModel> Reclamacoes { get; set; }
     }
 }

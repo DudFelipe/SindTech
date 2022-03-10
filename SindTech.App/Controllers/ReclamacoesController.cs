@@ -25,7 +25,7 @@ namespace SindTech.App.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var reclamacoes = await _reclamacaoService.ObterReclamacoesMoradores();
+            var reclamacoes = await _reclamacaoService.ObterReclamacoesAtivas();
 
             return View(_mapper.Map<IEnumerable<ReclamacaoViewModel>>(reclamacoes));
         }
@@ -104,6 +104,37 @@ namespace SindTech.App.Controllers
             return View(reclamacaoViewModel);
         }
 
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var reclamacaoViewModel = await ObterReclamacaoMorador(id);
+
+            if(reclamacaoViewModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(reclamacaoViewModel);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            var reclamacaoViewModel = await ObterReclamacaoMorador(id);
+
+            var reclamacao = _mapper.Map<Reclamacao>(reclamacaoViewModel);
+
+            reclamacao.Ativo = false;
+
+            await _reclamacaoService.Atualizar(reclamacao);
+
+            if(!OperacaoValida())
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction("Index");
+        }
+
         private async Task<ReclamacaoViewModel> PopularMoradores(ReclamacaoViewModel reclamacaoViewModel)
         {
             reclamacaoViewModel.Moradores = _mapper.Map<IEnumerable<MoradorViewModel>>(await _moradorService.ObterMoradoresAtivos());
@@ -114,6 +145,11 @@ namespace SindTech.App.Controllers
         private async Task<ReclamacaoViewModel> ObterReclamacaoMorador(Guid idReclamacao)
         {
             return _mapper.Map<ReclamacaoViewModel>(await _reclamacaoService.ObterReclamacaoMorador(idReclamacao));
+        }
+
+        private async Task<IEnumerable<ReclamacaoViewModel>> ObterReclamacoesAtivas()
+        {
+            return _mapper.Map<IEnumerable<ReclamacaoViewModel>>(await _reclamacaoService.ObterReclamacoesAtivas());
         }
     }
 }

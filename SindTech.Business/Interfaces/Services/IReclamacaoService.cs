@@ -11,6 +11,7 @@ namespace SindTech.Business.Interfaces.Services
     {
         Task<IEnumerable<Reclamacao>> ObterReclamacoesPorMorador(Guid moradorId);
         Task<IEnumerable<Reclamacao>> ObterReclamacoesMoradores();
+        Task<IEnumerable<Reclamacao>> ObterReclamacoesAtivas();
         Task<Reclamacao> ObterReclamacaoMorador(Guid id);
         Task Adicionar(Reclamacao reclamacao);
         Task Atualizar(Reclamacao reclamacao);
