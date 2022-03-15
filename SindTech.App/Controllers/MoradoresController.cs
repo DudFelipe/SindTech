@@ -23,6 +23,7 @@ namespace SindTech.App.Controllers
             _mapper = mapper;
         }
 
+        [Route("moradores/listar-moradores")]
         public async Task<IActionResult> Index()
         {
             var moradores = await _moradorService.ObterMoradoresAtivos();
@@ -30,12 +31,14 @@ namespace SindTech.App.Controllers
             return View(_mapper.Map<IEnumerable<MoradorViewModel>>(moradores));
         }
 
+        [Route("moradores/adicionar-morador")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Route("moradores/adicionar-morador")]
         public async Task<IActionResult> Create(MoradorViewModel moradorViewModel)
         {
             if (!ModelState.IsValid)
@@ -55,6 +58,7 @@ namespace SindTech.App.Controllers
             return RedirectToAction("Index");
         }
 
+        [Route("moradores/editar-morador/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
         {
             var moradorViewModel = await ObterMoradorReclamacoesContato(id);
@@ -68,6 +72,7 @@ namespace SindTech.App.Controllers
         }
 
         [HttpPost]
+        [Route("moradores/editar-morador/{id:guid}")]
         public async Task<IActionResult>Edit(Guid id, MoradorViewModel moradorViewModel)
         {
             var moradorAux = await ObterMoradorContato(moradorViewModel.Id);
@@ -96,6 +101,42 @@ namespace SindTech.App.Controllers
             return RedirectToAction("Index");
         }
 
+        [Route("contatos/atualizar-contato/{id:guid}")]
+        public async Task<IActionResult>AtualizarContato(Guid id)
+        {
+            var moradorViewModel = _mapper.Map<MoradorViewModel>(await _moradorService.ObterMoradorContato(id));
+
+            if(moradorViewModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(moradorViewModel);
+        }
+
+        [HttpPost]
+        [Route("contatos/atualizar-contato/{id:guid}")]
+        public async Task<IActionResult>AtualizarContato(MoradorViewModel moradorViewModel)
+        {
+            ModelState.Remove("Nome");
+            ModelState.Remove("CPF");
+
+            if(!ModelState.IsValid)
+            {
+                return View(moradorViewModel.Contato);
+            }
+
+            await _contatoService.Atualizar(_mapper.Map<Contato>(moradorViewModel.Contato));
+
+            if(!OperacaoValida())
+            {
+                return View(moradorViewModel.Contato);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [Route("moradores/detalhes/{id:guid}")]
         public async Task<IActionResult> Details(Guid id)
         {
             var moradorViewModel = await ObterMoradorContato(id);
@@ -108,6 +149,7 @@ namespace SindTech.App.Controllers
             return View(moradorViewModel);
         }
 
+        [Route("moradores/apagar-morador/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var moradorViewModel = await ObterMoradorContato(id);
@@ -121,6 +163,7 @@ namespace SindTech.App.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
+        [Route("moradores/apagar-morador/{id:guid}")]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var moradorViewModel = await ObterMoradorContato(id);

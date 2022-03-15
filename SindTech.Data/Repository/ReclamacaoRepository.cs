@@ -28,6 +28,16 @@ namespace SindTech.Data.Repository
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Reclamacao>> ObterReclamacoesAtivasMoreadores()
+        {
+            return await Db.Reclamacoes
+                .AsNoTracking()
+                .Include(m => m.Morador)
+                .Where(r => r.Ativo == true)
+                .OrderBy(r => r.Descricao)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<Reclamacao>> ObterReclamacoesPorMorador(Guid moradorId)
         {
             return await Buscar(r => r.MoradorId == moradorId);

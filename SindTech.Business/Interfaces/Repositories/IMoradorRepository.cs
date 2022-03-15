@@ -6,5 +6,6 @@ namespace SindTech.Business.Interfaces.Repositories
     {
         Task<Morador> ObterMoradorContato(Guid id); //Obtem um morador com seu contato
         Task<Morador> ObterMoradorReclamacoesContato(Guid id); //Obtem um morador com seu contato e com suas reclamações.
+        Task<IEnumerable<Morador>> ObterMoradoresAtivos();
     }
 }

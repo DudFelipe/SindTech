@@ -1,14 +1,17 @@
-﻿using SindTech.Business.Interfaces.Repositories;
+﻿using SindTech.Business.Interfaces;
+using SindTech.Business.Interfaces.Repositories;
 using SindTech.Business.Interfaces.Services;
 using SindTech.Business.Models;
+using SindTech.Business.Models.Validations;
 
 namespace SindTech.Business.Services
 {
-    public class ContatoService : IContatoService
+    public class ContatoService : BaseService, IContatoService
     {
         private readonly IContatoRepository _contatoRepository;
 
-        public ContatoService(IContatoRepository contatoRepository)
+        public ContatoService(IContatoRepository contatoRepository,
+                              INotificador notificador) : base(notificador)
         {
             _contatoRepository = contatoRepository;
         }
@@ -25,6 +28,11 @@ namespace SindTech.Business.Services
 
         public async Task Atualizar(Contato contato)
         {
+            if(!ExecutarValidacao(new ContatoValidation(), contato))
+            {
+                return;
+            }
+
             await _contatoRepository.Atualizar(contato);
         }
 

@@ -23,13 +23,15 @@ namespace SindTech.App.Controllers
             _mapper = mapper;
         }
 
+        [Route("reclamacoes/listar-reclamacoes")]
         public async Task<IActionResult> Index()
         {
-            var reclamacoes = await _reclamacaoService.ObterReclamacoesAtivas();
+            var reclamacoes = await ObterReclamacoesAtivasMoradores();
 
             return View(_mapper.Map<IEnumerable<ReclamacaoViewModel>>(reclamacoes));
         }
 
+        [Route("reclamacoes/adicionar-reclamacao")]
         public async Task<IActionResult> Create()
         {
             var reclamacaoViewModel = await PopularMoradores(new ReclamacaoViewModel());
@@ -38,6 +40,7 @@ namespace SindTech.App.Controllers
         }
 
         [HttpPost]
+        [Route("reclamacoes/adicionar-reclamacao")]
         public async Task<IActionResult> Create(ReclamacaoViewModel reclamacaoViewModel)
         {
             reclamacaoViewModel = await(PopularMoradores(reclamacaoViewModel));
@@ -57,6 +60,7 @@ namespace SindTech.App.Controllers
             return RedirectToAction("Index");
         }
 
+        [Route("reclamacoes/editar-reclamacao/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
         {
             var reclamacaoViewModel = await ObterReclamacaoMorador(id);
@@ -70,6 +74,7 @@ namespace SindTech.App.Controllers
         }
 
         [HttpPost]
+        [Route("reclamacoes/editar-reclamacao/{id:guid}")]
         public async Task<IActionResult> Edit(ReclamacaoViewModel reclamacaoViewModel)
         {
             if(!ModelState.IsValid)
@@ -92,6 +97,7 @@ namespace SindTech.App.Controllers
             return RedirectToAction("Index");
         }
 
+        [Route("reclamacoes/detalhes-reclamacao/{id:guid}")]
         public async Task<IActionResult> Details(Guid id)
         {
             var reclamacaoViewModel = await ObterReclamacaoMorador(id);
@@ -104,6 +110,7 @@ namespace SindTech.App.Controllers
             return View(reclamacaoViewModel);
         }
 
+        [Route("reclamacoes/apagar-reclamacao/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var reclamacaoViewModel = await ObterReclamacaoMorador(id);
@@ -117,6 +124,7 @@ namespace SindTech.App.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
+        [Route("reclamacoes/apagar-reclamacao/{id:guid}")]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var reclamacaoViewModel = await ObterReclamacaoMorador(id);
@@ -147,9 +155,9 @@ namespace SindTech.App.Controllers
             return _mapper.Map<ReclamacaoViewModel>(await _reclamacaoService.ObterReclamacaoMorador(idReclamacao));
         }
 
-        private async Task<IEnumerable<ReclamacaoViewModel>> ObterReclamacoesAtivas()
+        private async Task<IEnumerable<ReclamacaoViewModel>> ObterReclamacoesAtivasMoradores()
         {
-            return _mapper.Map<IEnumerable<ReclamacaoViewModel>>(await _reclamacaoService.ObterReclamacoesAtivas());
+            return _mapper.Map<IEnumerable<ReclamacaoViewModel>>(await _reclamacaoService.ObterReclamacoesAtivasMoradores());
         }
     }
 }

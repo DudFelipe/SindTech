@@ -12,6 +12,14 @@ namespace SindTech.Data.Repository
 
         }
 
+        public async Task<IEnumerable<Morador>> ObterMoradoresAtivos()
+        {
+            return await Db.Moradores
+                .AsNoTracking()
+                .Include(c => c.Contato)
+                .ToListAsync();
+        }
+
         public async Task<Morador> ObterMoradorContato(Guid id)
         {
             return await Db.Moradores

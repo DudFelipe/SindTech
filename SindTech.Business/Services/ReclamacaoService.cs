@@ -26,9 +26,10 @@ namespace SindTech.Business.Services
             return await _reclamacaoRepository.ObterReclamacoesMoradores();
         }
 
-        public async Task<IEnumerable<Reclamacao>> ObterReclamacoesAtivas()
+        public async Task<IEnumerable<Reclamacao>> ObterReclamacoesAtivasMoradores()
         {
-            return await _reclamacaoRepository.Buscar(r => r.Ativo == true);
+            //return await _reclamacaoRepository.Buscar(r => r.Ativo == true);
+            return await _reclamacaoRepository.ObterReclamacoesAtivasMoreadores();
         }
 
         public async Task<IEnumerable<Reclamacao>> ObterReclamacoesPorMorador(Guid moradorId)

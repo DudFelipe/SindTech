@@ -6,6 +6,7 @@ namespace SindTech.Business.Interfaces.Repositories
     {
         Task<IEnumerable<Reclamacao>> ObterReclamacoesPorMorador(Guid moradorId);
         Task<IEnumerable<Reclamacao>> ObterReclamacoesMoradores();
+        Task<IEnumerable<Reclamacao>> ObterReclamacoesAtivasMoreadores();
         Task<Reclamacao> ObterReclamacaoMorador(Guid id);
     }
 }

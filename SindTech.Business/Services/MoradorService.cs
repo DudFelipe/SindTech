@@ -38,7 +38,7 @@ namespace SindTech.Business.Services
 
         public async Task<IEnumerable<Morador>> ObterMoradoresAtivos()
         {
-            return await _moradorRepository.Buscar(m => m.Ativo == true);
+            return await _moradorRepository.ObterMoradoresAtivos();
         }
 
         public async Task Adicionar(Morador morador)
